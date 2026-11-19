@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7eff4">
+<title>BEOVERSE — Beo's private little universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="top"><div class="wrap nav"><div class="brand">BEO<i>VERSE</i></div><nav class="links"><a href="#about">About</a><a href="#portfolio">Portfolio</a><a href="#diary">Diary</a><a href="#gallery">Gallery</a><a href="#profile">My profile</a></nav><div class="row"><span class="status" id="userLabel">Private space</span><button class="btn soft" id="logoutBtn" onclick="logout()">Đăng xuất</button></div></div></header>
+<main id="app" class="hidden">
+<section class="wrap hero"><div><div class="eyebrow">✧ a little universe of my own ✧</div><h1>Welcome to<br><em>BEOVERSE.</em></h1><p>Một góc nhỏ để Beo cất giữ những điều mình tạo ra, những điều mình yêu thích và cả những mẩu ký ức chẳng muốn bỏ quên.</p><div class="row" style="margin-top:22px"><a class="btn" href="#portfolio" style="text-decoration:none">Khám phá thế giới của Beo</a><span class="small">✦ made of many little things</span></div></div><div class="art"><div class="ring"></div><div class="ring r2"></div><div class="orb"></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✳</span><span class="spark s4">⋆</span><span class="cat" id="cat" title="Meow!">🐈</span></div></section>
+<section class="section wrap" id="about"><div class="head"><div><div class="kicker">01 / the person behind the pages</div><h2>A little about me</h2></div><p class="desc">Không cần phải gói gọn bản thân trong một danh xưng. Đây là nơi Beo được là chính mình.</p></div><div class="panel"><h3 id="aboutTitle" style="font:italic 28px 'Playfair Display';margin:0 0 10px">“I am made of many little things.”</h3><p id="aboutText" class="desc" style="max-width:760px">Một chút tò mò, một chút mơ mộng, vài ý tưởng bất chợt và vô số điều nhỏ xíu mà mình muốn giữ lại.</p></div></section>
+<section class="section" id="portfolio" style="background:#f0e9f2"><div class="wrap"><div class="head"><div><div class="kicker">02 / made with my hands & mind</div><h2>My portfolio</h2></div><button class="btn" onclick="openEntry('work')">＋ Thêm tác phẩm</button></div><div class="grid" id="works"></div></div></section>
+<section class="section wrap" id="diary"><div class="head"><div><div class="kicker">03 / notes to my future self</div><h2>Dear diary...</h2></div><button class="btn" onclick="openEntry('diary')">＋ Viết nhật ký</button></div><div class="diary" id="diaries"></div></section>
+<section class="section" id="gallery" style="background:#eaf0ef"><div class="wrap"><div class="head"><div><div class="kicker">04 / moments worth keeping</div><h2>Memory gallery</h2></div><label class="btn" for="photoInput">＋ Tải ảnh lên</label><input id="photoInput" class="hidden" type="file" accept="image/*" multiple onchange="uploadPhotos(this.files)"></div><div class="gallery" id="photos"></div><p class="small">Ảnh ở đây được lưu trong kho riêng tư của tài khoản Beo.</p></div></section>
+<section class="section wrap" id="archive"><div class="head"><div><div class="kicker">05 / a cabinet of curiosities</div><h2>Little archive</h2></div><button class="btn" onclick="openEntry('archive')">＋ Lưu một điều</button></div><div class="grid" id="archives"></div></section>
+<section class="section" style="background:#352b40;color:#fff8f1"><div class="wrap"><div class="head"><div><div class="kicker" style="color:#d7b7d5">06 / a soundtrack for this universe</div><h2>My music box</h2></div><p class="desc" style="color:#d3c5d7">Chọn một bản nhạc từ thiết bị của Beo để làm soundtrack cho góc nhỏ này.</p></div><div class="panel music"><div class="vinyl" id="vinyl"></div><div><strong id="trackName">A little melody</strong><p class="small">Nhạc phát từ tệp Beo chọn · chỉ phát trên thiết bị hiện tại</p><audio id="audio" controls style="width:100%;height:34px"></audio></div><div class="uploadmusic"><label class="btn soft" for="musicInput">Chọn nhạc</label><input class="hidden" id="musicInput" type="file" accept="audio/*" onchange="loadMusic(this.files[0])"></div></div></div></section>
+<section class="section wrap" id="profile"><div class="head"><div><div class="kicker">07 / the keeper of this universe</div><h2>My identity</h2></div><button class="btn" onclick="editProfile()">✎ Chỉnh sửa hồ sơ</button></div><div class="panel profilegrid"><div><div class="avatar" id="avatar">🌙</div><div class="small" style="margin-top:9px">YOUR LITTLE PORTRAIT</div></div><div><h3 id="profileName" style="font:32px 'Playfair Display';margin:0 0 6px">Beo</h3><p id="profileBio" class="desc">A curious soul collecting little wonders.</p><div class="row" id="profileTags" style="margin-top:16px"></div></div></div></section>
+<footer>“stay curious, stay a little magical.”<br><br>BEOVERSE © <span id="year"></span> · A PRIVATE LITTLE UNIVERSE</footer>
+</main>
+<div class="auth" id="auth"><div class="authbox"><div class="eyebrow">✦ your own little universe ✦</div><h2>Welcome to BEOVERSE.</h2><p class="small" style="line-height:1.8">Đăng nhập để bước vào không gian riêng của Beo. Chỉ tài khoản của em mới xem được nhật ký và kho ảnh.</p><div id="configNotice" class="notice hidden"></div><div class="tabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">Đăng nhập</button><button id="signupTab" onclick="setAuthMode('signup')">Tạo tài khoản</button></div><form id="authForm"><div class="field" id="nameField"><label>Tên hiển thị</label><input id="authName" autocomplete="name" placeholder="Beo"></div><div class="field"><label>Email</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>Mật khẩu</label><input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="Ít nhất 8 ký tự"></div><button class="btn" id="authSubmit" type="submit" style="width:100%;margin-top:8px">Đăng nhập vào BEOVERSE ✧</button></form><p id="authMessage" class="small" style="margin-top:13px;line-height:1.6"></p><p class="small">Không chia sẻ mật khẩu với bất kỳ ai. BEOVERSE không lưu mật khẩu dạng văn bản.</p></div></div>
+<div class="modalback" id="entryModal"><div class="modal"><h3 id="entryTitle">Add something</h3><form id="entryForm"><div id="entryFields"></div><div class="modalfoot"><button class="btn line" type="button" onclick="closeModal()">Huỷ</button><button class="btn" type="submit">Lưu vào BEOVERSE ✧</button></div></form></div></div>
+<div class="modalback" id="profileModal"><div class="modal"><h3>Chỉnh sửa hồ sơ</h3><form id="profileForm"><div class="field"><label>Tên hiển thị</label><input name="display_name" required maxlength="50"></div><div class="field"><label>Giới thiệu</label><textarea name="bio" maxlength="500"></textarea></div><div class="field"><label>Những từ mô tả em (cách nhau bằng dấu phẩy)</label><input name="tags" placeholder="daydreamer, art lover, curious mind"></div><div class="field"><label>Ảnh đại diện</label><input name="avatar" type="file" accept="image/*"></div><div class="modalfoot"><button class="btn line" type="button" onclick="$('#profileModal').classList.remove('open')">Huỷ</button><button class="btn">Lưu hồ sơ</button></div></form></div></div>
+<div id="toast"></div>
+
+<script>
+const $ = selector => document.querySelector(selector);
+const STORAGE_KEY = 'beoverse_local_v1';
+const SESSION_KEY = 'beoverse_current_user';
+let currentEmail = null;
+let mode = 'login';
+let entryType = 'work';
+let musicUrl = null;
+
+$('#year').textContent = new Date().getFullYear();
+
+function readStore() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { users: {} }; }
+  catch { return { users: {} }; }
+}
+function writeStore(store) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+    return true;
+  } catch (error) {
+    toast('Bộ nhớ trình duyệt đã đầy. Hãy giảm dung lượng ảnh hoặc xoá bớt dữ liệu.');
+    return false;
+  }
+}
+function currentUser() {
+  if (!currentEmail) return null;
+  return readStore().users[currentEmail] || null;
+}
+function updateCurrentUser(mutator) {
+  const store = readStore();
+  const account = store.users[currentEmail];
+  if (!account) return false;
+  mutator(account);
+  return writeStore(store);
+}
+async function hashPassword(password) {
+  const bytes = new TextEncoder().encode(password);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function toast(message) {
+  const element = $('#toast');
+  element.textContent = message;
+  element.style.display = 'block';
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => element.style.display = 'none', 2800);
+}
+function setAuthMode(nextMode) {
+  mode = nextMode;
+  $('#loginTab').classList.toggle('active', mode === 'login');
+  $('#signupTab').classList.toggle('active', mode === 'signup');
+  $('#nameField').classList.toggle('hidden', mode === 'login');
+  $('#authSubmit').textContent = mode === 'login' ? 'Đăng nhập vào BEOVERSE ✧' : 'Tạo tài khoản riêng ✧';
+  $('#password').autocomplete = mode === 'login' ? 'current-password' : 'new-password';
+  $('#authMessage').textContent = '';
+}
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[char]));
+}
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Không thể đọc tệp.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+$('#authForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const email = $('#email').value.trim().toLowerCase();
+  const password = $('#password').value;
+  const button = $('#authSubmit');
+  button.disabled = true;
+  $('#authMessage').textContent = 'Đang xử lý...';
+  try {
+    const store = readStore();
+    const passwordHash = await hashPassword(password);
+    if (mode === 'signup') {
+      if (store.users[email]) throw new Error('Email này đã có tài khoản trên trình duyệt.');
+      store.users[email] = {
+        passwordHash,
+        profile: {
+          display_name: $('#authName').value.trim() || 'Beo',
+          bio: 'A curious soul collecting little wonders.',
+          tags: ['daydreamer', 'art lover', 'curious mind'],
+          avatar: ''
+        },
+        entries: [],
+        photos: []
+      };
+      if (!writeStore(store)) return;
+      $('#authMessage').textContent = 'Tạo tài khoản thành công! Đang mở BEOVERSE...';
+    } else {
+      const account = store.users[email];
+      if (!account || account.passwordHash !== passwordHash) {
+        throw new Error('Email hoặc mật khẩu chưa chính xác.');
+      }
+    }
+    currentEmail = email;
+    localStorage.setItem(SESSION_KEY, email);
+    enterApp();
+  } catch (error) {
+    $('#authMessage').textContent = error.message || 'Có lỗi xảy ra.';
+  } finally {
+    button.disabled = false;
+  }
+});
+
+function enterApp() {
+  if (!currentUser()) return leaveApp();
+  $('#auth').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  $('#userLabel').textContent = currentEmail;
+  loadEntries();
+  loadPhotos();
+  loadProfile();
+}
+function leaveApp() {
+  $('#app').classList.add('hidden');
+  $('#auth').classList.remove('hidden');
+  $('#userLabel').textContent = 'Private space';
+}
+function logout() {
+  currentEmail = null;
+  localStorage.removeItem(SESSION_KEY);
+  leaveApp();
+}
+function loadEntries() {
+  const entries = currentUser()?.entries || [];
+  const groups = { work: [], diary: [], archive: [] };
+  entries.forEach(item => groups[item.kind]?.push(item));
+  renderEntries(groups);
+}
+function renderEntries(groups) {
+  $('#works').innerHTML = groups.work.map(item => `
+    <article class="tile">
+      <div class="visual">${item.image ? `<img src="${item.image}" alt="" style="width:100%;height:100%;object-fit:cover">` : '✧'}</div>
+      <div class="body"><span class="date">${escapeHTML(item.category || 'PERSONAL WORK')}</span>
+      <h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.body || '')}</p>
+      <button class="btn line" onclick="deleteEntry('${item.id}')">Xoá</button></div>
+    </article>`).join('') || '<p class="small">Chưa có tác phẩm nào. Thêm tác phẩm đầu tiên nhé!</p>';
+
+  $('#diaries').innerHTML = groups.diary.map(item => `
+    <article><div class="date">${new Date(item.createdAt).toLocaleDateString('vi-VN')}</div>
+    <h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.body)}</p>
+    <button class="btn line" onclick="deleteEntry('${item.id}')">Xoá</button></article>`
+  ).join('') || '<p class="small">Trang nhật ký đầu tiên đang chờ Beo viết.</p>';
+
+  $('#archives').innerHTML = groups.archive.map(item => `
+    <article class="tile"><div class="body"><div class="date">${escapeHTML(item.category || 'SAVED NOTE')}</div>
+    <h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.body || '')}</p>
+    <button class="btn line" onclick="deleteEntry('${item.id}')">Xoá</button></div></article>`
+  ).join('') || '<p class="small">Chiếc tủ tò mò vẫn còn trống.</p>';
+}
+function openEntry(type) {
+  entryType = type;
+  $('#entryTitle').textContent = type === 'work' ? 'Thêm tác phẩm mới' : type === 'diary' ? 'Viết một trang nhật ký' : 'Lưu vào little archive';
+  let fields = '<div class="field"><label>Tiêu đề</label><input name="title" required maxlength="120"></div>';
+  if (type !== 'diary') fields += '<div class="field"><label>Danh mục</label><input name="category" placeholder="Illustration, books, favorites..."></div>';
+  fields += '<div class="field"><label>Nội dung / mô tả</label><textarea name="body" maxlength="5000"></textarea></div>';
+  if (type === 'work') fields += '<div class="field"><label>Ảnh bìa (tuỳ chọn)</label><input name="cover" type="file" accept="image/*"></div>';
+  $('#entryFields').innerHTML = fields;
+  $('#entryModal').classList.add('open');
+}
+function closeModal() { $('#entryModal').classList.remove('open'); }
+$('#entryForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const file = formData.get('cover');
+  let image = '';
+  try {
+    if (file && file.size) {
+      if (file.size > 1.5 * 1024 * 1024) {
+        toast('Ảnh bìa nên nhỏ hơn 1.5 MB để tránh đầy bộ nhớ.');
+        return;
+      }
+      image = await readFileAsDataURL(file);
+    }
+    const item = {
+      id: crypto.randomUUID(),
+      kind: entryType,
+      title: formData.get('title').trim(),
+      category: formData.get('category') || '',
+      body: formData.get('body') || '',
+      image,
+      createdAt: new Date().toISOString()
+    };
+    const saved = updateCurrentUser(account => account.entries.unshift(item));
+    if (saved) {
+      toast('Đã cất vào BEOVERSE ✧');
+      closeModal();
+      event.target.reset();
+      loadEntries();
+    }
+  } catch (error) {
+    toast(error.message || 'Không thể lưu mục này.');
+  }
+});
+function deleteEntry(id) {
+  if (!confirm('Xoá mục này khỏi BEOVERSE nhé?')) return;
+  updateCurrentUser(account => { account.entries = account.entries.filter(item => item.id !== id); });
+  loadEntries();
+}
+async function uploadPhotos(fileList) {
+  const files = [...fileList].filter(file => file.type.startsWith('image/'));
+  for (const file of files) {
+    if (file.size > 1.5 * 1024 * 1024) {
+      toast(`Ảnh "${file.name}" lớn hơn 1.5 MB nên đã bỏ qua.`);
+      continue;
+    }
+    try {
+      const data = await readFileAsDataURL(file);
+      const saved = updateCurrentUser(account => account.photos.unshift({
+        id: crypto.randomUUID(), name: file.name, data
+      }));
+      if (!saved) break;
+    } catch (error) { toast(error.message); }
+  }
+  $('#photoInput').value = '';
+  loadPhotos();
+}
+function loadPhotos() {
+  const photos = currentUser()?.photos || [];
+  $('#photos').innerHTML = photos.map(photo => `
+    <div class="photo"><img src="${photo.data}" alt="${escapeHTML(photo.name)}">
+    <button onclick="deletePhoto('${photo.id}')" title="Xoá ảnh">×</button></div>`
+  ).join('') || '<p class="small">Chưa có ảnh. Hãy tải lên một kỷ niệm đầu tiên nhé!</p>';
+}
+function deletePhoto(id) {
+  if (!confirm('Xoá ảnh này?')) return;
+  updateCurrentUser(account => { account.photos = account.photos.filter(photo => photo.id !== id); });
+  loadPhotos();
+}
+function loadProfile() {
+  const profile = currentUser()?.profile || {};
+  $('#profileName').textContent = profile.display_name || 'Beo';
+  $('#profileBio').textContent = profile.bio || '';
+  $('#aboutText').textContent = profile.bio || 'Một chút tò mò, một chút mơ mộng...';
+  $('#profileTags').innerHTML = (profile.tags || []).map(tag => `<span class="btn soft">${escapeHTML(tag)}</span>`).join('');
+  $('#avatar').innerHTML = profile.avatar ? `<img src="${profile.avatar}" alt="Ảnh đại diện">` : '🌙';
+}
+function editProfile() {
+  const form = $('#profileForm');
+  const profile = currentUser()?.profile || {};
+  form.elements.display_name.value = profile.display_name || '';
+  form.elements.bio.value = profile.bio || '';
+  form.elements.tags.value = (profile.tags || []).join(', ');
+  $('#profileModal').classList.add('open');
+}
+$('#profileForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.target;
+  const formData = new FormData(form);
+  const file = formData.get('avatar');
+  try {
+    let avatar = currentUser()?.profile?.avatar || '';
+    if (file && file.size) {
+      if (file.size > 1.5 * 1024 * 1024) {
+        toast('Ảnh đại diện nên nhỏ hơn 1.5 MB.');
+        return;
+      }
+      avatar = await readFileAsDataURL(file);
+    }
+    const profile = {
+      display_name: formData.get('display_name').trim(),
+      bio: formData.get('bio') || '',
+      tags: (formData.get('tags') || '').split(',').map(tag => tag.trim()).filter(Boolean),
+      avatar
+    };
+    if (updateCurrentUser(account => { account.profile = profile; })) {
+      $('#profileModal').classList.remove('open');
+      loadProfile();
+      toast('Hồ sơ đã được cập nhật ✧');
+    }
+  } catch (error) { toast(error.message || 'Không thể lưu hồ sơ.'); }
+});
+function loadMusic(file) {
+  if (!file) return;
+  if (musicUrl) URL.revokeObjectURL(musicUrl);
+  musicUrl = URL.createObjectURL(file);
+  $('#audio').src = musicUrl;
+  $('#trackName').textContent = file.name;
+  $('#audio').play().catch(() => {});
+  $('#vinyl').classList.add('playing');
+}
+$('#audio').addEventListener('play', () => $('#vinyl').classList.add('playing'));
+$('#audio').addEventListener('pause', () => $('#vinyl').classList.remove('playing'));
+$('#cat').addEventListener('click', () => toast('Meow~ Chào Beo! 🐾'));
+
+function init() {
+  $('#configNotice').classList.remove('hidden');
+  $('#configNotice').textContent = 'BEOVERSE đang chạy ở chế độ lưu cục bộ. Tài khoản và dữ liệu chỉ nằm trên trình duyệt, không có máy chủ đồng bộ.';
+  const savedEmail = localStorage.getItem(SESSION_KEY);
+  if (savedEmail && readStore().users[savedEmail]) {
+    currentEmail = savedEmail;
+    enterApp();
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+    leaveApp();
+  }
+}
+init();
+</script>
+</body></html>
